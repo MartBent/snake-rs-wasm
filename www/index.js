@@ -1,5 +1,5 @@
-import { Game } from "wasm-game-of-life";
-import { memory } from "wasm-game-of-life/gameoflife_bg";
+import { Game } from "snake-rs";
+import { memory } from "snake-rs/snake_rs_wasm_bg";
 
 const CELL_SIZE = 5; // px
 const GRID_COLOR = "#CCCCCC";
@@ -15,7 +15,7 @@ export function getRandomNumber(limit) {
 
 // Give the canvas room for all of our cells and a 1px border
 // around each of them.
-const canvas = document.getElementById("game-of-life-canvas");
+const canvas = document.getElementById("snake-canvas");
 canvas.height = (CELL_SIZE + 1) * height + 1;
 canvas.width = (CELL_SIZE + 1) * width + 1;
 
@@ -37,25 +37,6 @@ document.addEventListener("keydown", (event) => {
 });
 
 const ctx = canvas.getContext("2d");
-
-const drawGrid = () => {
-  ctx.beginPath();
-  ctx.strokeStyle = GRID_COLOR;
-
-  // Vertical lines.
-  for (let i = 0; i <= width; i++) {
-    ctx.moveTo(i * (CELL_SIZE + 1) + 1, 0);
-    ctx.lineTo(i * (CELL_SIZE + 1) + 1, (CELL_SIZE + 1) * height + 1);
-  }
-
-  // Horizontal lines.
-  for (let j = 0; j <= height; j++) {
-    ctx.moveTo(0, j * (CELL_SIZE + 1) + 1);
-    ctx.lineTo((CELL_SIZE + 1) * width + 1, j * (CELL_SIZE + 1) + 1);
-  }
-
-  ctx.stroke();
-};
 
 const drawCells = () => {
   const cellsPtr = game.render();
@@ -92,7 +73,6 @@ const renderLoop = async () => {
 
   game.tick();
 
-  drawGrid();
   drawCells();
 
   requestAnimationFrame(renderLoop);
