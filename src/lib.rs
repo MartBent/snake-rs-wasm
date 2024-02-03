@@ -2,6 +2,7 @@ mod utils;
 
 use snake_rs::{Cell, Direction, SnakeGame, SnakeProvider};
 use wasm_bindgen::prelude::wasm_bindgen;
+use rand::Rng;
 
 #[wasm_bindgen]
 extern "C" {
@@ -9,16 +10,12 @@ extern "C" {
     fn log(s: &str);
 }
 
-#[wasm_bindgen(module = "/www/random.js")]
-extern "C" {
-    fn getRandomNumber(limit: u32) -> u32;
-}
-
 pub struct SnakeBridge;
 
 impl SnakeProvider for SnakeBridge {
     fn provide_random_number(&self, size: u32) -> u32 {
-        getRandomNumber(size)
+        let mut rng = rand::thread_rng();
+        rng.gen_range(0 .. size)
     }
 
     fn debug_log(&self, message: &str) {

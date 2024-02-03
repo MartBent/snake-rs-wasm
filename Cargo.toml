@@ -12,7 +12,9 @@ default = ["console_error_panic_hook"]
 
 [dependencies]
 wasm-bindgen = "0.2.84"
-rand = "0.7.3"
+getrandom = { version = "0.2.6", features = ["js"]}
+rand = "0.8.5"
+
 snake-rs = { git = "https://github.com/MartBent/snake-rs" }
 
 # The `console_error_panic_hook` crate provides better debugging of panics by
